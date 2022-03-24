@@ -1,0 +1,5 @@
+---
+- name: Restart VerneMQ
+  service:
+    name: vernemq
+    state: restarted

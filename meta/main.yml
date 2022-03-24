@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  role_name: vernemq
+  namespace: ngine_io
+  author: René Moser
+  company: renemoser.net / ngine.io
+  description: VerneMQ MQTT Broker
+  license: "license (Apache2, MIT)"
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+    - name: Debian
+      versions:
+        - 10
+        - 11
+    - name: Ubuntu
+      versions:
+        - 20.04
+  galaxy_tags:
+    - mqtt

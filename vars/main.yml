@@ -1,0 +1,4 @@
+---
+vernemq__base_url: https://github.com/vernemq/vernemq/releases/download
+vernemq__download_url: "{{ vernemq__base_url }}/{{ vernemq__version }}/{{ vernemq__package }}"
+vernemq__checksums_url: "{{ vernemq__base_url }}/{{ vernemq__version }}/sha256sums.txt"

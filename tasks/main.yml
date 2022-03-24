@@ -1,0 +1,57 @@
+---
+- name: Try load vars
+  block:
+    - name: Load ansible_os_family vars
+      include_vars: "{{ ansible_os_family }}.yml"
+  rescue:
+    - name: Print when errors
+      fail:
+        msg: "{{ ansible_os_family }} support not implemented"
+
+- name: Download VerneMQ package
+  get_url:
+    url: "{{ vernemq__download_url }}"
+    dest: "./{{ vernemq__package }}"
+    checksum: "sha256:{{ vernemq__checksums_url }}"
+    force: false
+
+- name: Install VerneMQ for RedHat OS family
+  yum:
+    name: "./{{ vernemq__package }}"
+    disable_gpg_check: true
+  notify: Restart VerneMQ
+  when: ansible_os_family == "RedHat"
+
+- name: Install VerneMQ for Debian OS family
+  apt:
+    deb: "./{{ vernemq__package }}"
+  notify: Restart VerneMQ
+  when: ansible_os_family == "Debian"
+
+- name: Backup origin VerneMQ config
+  copy:
+    src: /etc/vernemq/vernemq.conf
+    dest: /etc/vernemq/vernemq.conf.origin
+    remote_src: true
+    force: false
+
+- name: Configure VerneMQ
+  template:
+    src: vernemq.conf.j2
+    dest: /etc/vernemq/vernemq.conf
+  notify: Restart VerneMQ
+
+- name: Ensure VerneMQ is running
+  service:
+    name: vernemq
+    state: started
+    enabled: true
+
+- name: Run handlers
+  meta: flush_handlers
+
+- name: Wait for VerneMQ listening
+  wait_for:
+    port: "{{ vernemq__wait_for_port }}"
+    delay: 10
+  when: not ansible_check_mode
