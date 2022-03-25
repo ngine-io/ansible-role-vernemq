@@ -1,6 +1,7 @@
 ---
 vernemq__version: 1.12.4
 vernemq__wait_for_port: 8888
+vernemq__config_backup_enabled: false
 vernemq__default_configs:
   accept_eula: "no"
   allow_anonymous: "off"

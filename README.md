@@ -23,6 +23,11 @@ vernemq__wait_for_port: 8888
 Port to check, on which vernemq http is listen.
 
 ```yaml
+vernemq__config_backup_enabled: false
+```
+Backup the config file before each change.
+
+```yaml
 vernemq__default_configs:
     accept_eula: "no"
     allow_anonymous: "off"

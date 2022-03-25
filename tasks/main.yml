@@ -41,6 +41,7 @@
   template:
     src: vernemq.conf.j2
     dest: /etc/vernemq/vernemq.conf
+    backup: "{{ vernemq__config_backup_enabled }}"
   notify: Restart VerneMQ
 
 - name: Check config VerneMQ
