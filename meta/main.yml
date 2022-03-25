@@ -14,9 +14,12 @@ galaxy_info:
         - 8
     - name: Debian
       versions:
-        - all
+        - bookworm
+        - bullseye
+        - buster
     - name: Ubuntu
       versions:
-        - all
+        - focal
   galaxy_tags:
     - mqtt
+    - vernemq
