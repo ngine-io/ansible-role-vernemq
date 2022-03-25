@@ -107,9 +107,9 @@ None.
 - hosts: vernemq
   vars:
     vernemq__configs:
-    accept_eula: "yes"
-    nodename: "VerneMQ@{{ ansible_default_ipv4.address }}"
-    max_online_messages: 100000
+      accept_eula: "yes"
+      nodename: "VerneMQ@{{ ansible_default_ipv4.address }}"
+      max_online_messages: 100000
   roles:
     - role: ngine_io.vernemq
 ```
