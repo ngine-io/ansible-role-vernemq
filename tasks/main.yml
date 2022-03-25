@@ -14,6 +14,8 @@
     dest: "./{{ vernemq__package }}"
     checksum: "sha256:{{ vernemq__checksums_url }}"
     force: false
+  until: res is succeeded
+  register: res
 
 - name: Install VerneMQ for RedHat OS family
   yum:
@@ -40,6 +42,10 @@
     src: vernemq.conf.j2
     dest: /etc/vernemq/vernemq.conf
   notify: Restart VerneMQ
+
+- name: Check config VerneMQ
+  command: vernemq chkconfig
+  changed_when: false
 
 - name: Ensure VerneMQ is running
   service:

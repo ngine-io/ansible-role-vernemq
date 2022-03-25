@@ -1,4 +1,5 @@
 # {{ ansible_managed }}
+# See vernemq.conf.origin for the config options
 {% for key, value in (vernemq__default_configs | combine(vernemq__configs)).items() %}
 {{ key }} = {{ value }}
 {% endfor %}
