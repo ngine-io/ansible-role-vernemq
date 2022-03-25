@@ -48,11 +48,19 @@
   command: vernemq chkconfig
   changed_when: false
 
-- name: Ensure VerneMQ is running
-  service:
-    name: vernemq
-    state: started
-    enabled: true
+- block:
+    - name: Ensure VerneMQ is running
+      service:
+        name: vernemq
+        state: started
+        enabled: true
+  rescue:
+    - name: journalctl
+      command: journalctl -xe
+      register: debug
+    - name: Print when errors
+      fail:
+        msg: "stopping on error: {{ debug.stdout }}"
 
 - name: Run handlers
   meta: flush_handlers
