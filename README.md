@@ -10,6 +10,24 @@ Installs [VerneMQ MQTT broker](https://vernemq.com) on RedHat/RockyLinux/CentOS 
 
 None.
 
+## Installation
+
+Via `requirements.yml`:
+
+```yaml
+---
+# file: requirements.yml
+roles:
+  - name: ngine_io.vernemq
+    version: v0.3.0
+```
+
+To install:
+
+```
+ansible-galaxy install -r requirements.yml
+```
+
 ## Role Variables
 
 ```yaml
