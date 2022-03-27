@@ -69,6 +69,22 @@
 - name: Run handlers
   meta: flush_handlers
 
+- name: Get VerneMQ cluster status
+  command: vmq-admin cluster show
+  register: cluster_res
+  changed_when: false
+  check_mode: false
+  when: vernemq__cluster_discovery_node is not none
+
+- name: Join VerneMQ cluster
+  command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}'
+  register: join_res
+  when:
+    - vernemq__cluster_discovery_node is not none
+    - vernemq__cluster_discovery_node not in cluster_res.stdout
+  failed_when:
+    - join_res.stdout.find("Couldn't join cluster") != -1 or join_res.rc > 0
+
 - name: Wait for VerneMQ listening
   wait_for:
     port: "{{ vernemq__wait_for_port }}"
