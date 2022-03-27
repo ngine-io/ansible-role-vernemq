@@ -38,10 +38,12 @@
     force: false
 
 - name: Configure VerneMQ
-  template:
-    src: vernemq.conf.j2
-    dest: /etc/vernemq/vernemq.conf
+  lineinfile:
+    path: /etc/vernemq/vernemq.conf
+    regexp: "^{{ item.key }} = "
+    line: "{{ item.key }} = {{ item.value }}"
     backup: "{{ vernemq__config_backup_enabled }}"
+  with_dict: "{{ vernemq__default_configs | combine(vernemq__configs) }}"
   notify: Restart VerneMQ
 
 - name: Check config VerneMQ

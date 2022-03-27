@@ -22,7 +22,7 @@ vernemq__default_configs:
   listener.nr_of_acceptors: 10
   listener.tcp.default: "0.0.0.0:1883"
   listener.vmq.clustering: "0.0.0.0:44053"
-  listener.http.default: "0.0.0.0:{{ vernemq__wait_for_port }}"
+  listener.http.default: "127.0.0.1:{{ vernemq__wait_for_port }}"
   systree_enabled: "on"
   systree_interval: 20000
   graphite_enabled: "off"
