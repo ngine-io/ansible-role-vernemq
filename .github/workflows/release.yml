@@ -3,10 +3,9 @@
 # repository or organization.
 
 name: Release
-on:
-  push:
-    tags:
-      - 'v*'
+"on":
+  release:
+    types: [created]
 
 defaults:
   run:
