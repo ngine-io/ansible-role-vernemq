@@ -2,43 +2,45 @@
 - name: Try load vars
   block:
     - name: Load ansible_os_family vars
-      include_vars: "{{ ansible_os_family }}.yml"
+      ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
   rescue:
     - name: Print when errors
-      fail:
+      ansible.builtin.fail:
         msg: "{{ ansible_os_family }} support not implemented"
 
 - name: Download VerneMQ package
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ vernemq__download_url }}"
     dest: "./{{ vernemq__package }}"
     checksum: "sha256:{{ vernemq__checksums_url }}"
+    mode: 0644
     force: false
   until: res is succeeded
   register: res
 
 - name: Install VerneMQ for RedHat OS family
-  yum:
+  ansible.builtin.yum:
     name: "./{{ vernemq__package }}"
     disable_gpg_check: true
   notify: Restart VerneMQ
   when: ansible_os_family == "RedHat"
 
 - name: Install VerneMQ for Debian OS family
-  apt:
+  ansible.builtin.apt:
     deb: "./{{ vernemq__package }}"
   notify: Restart VerneMQ
   when: ansible_os_family == "Debian"
 
 - name: Backup origin VerneMQ config
-  copy:
+  ansible.builtin.copy:
     src: /etc/vernemq/vernemq.conf
     dest: /etc/vernemq/vernemq.conf.origin
+    mode: 0644
     remote_src: true
     force: false
 
 - name: Configure VerneMQ
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/vernemq/vernemq.conf
     regexp: "^{{ item.key }} = "
     line: "{{ item.key }} = {{ item.value }}"
@@ -47,39 +49,40 @@
   notify: Restart VerneMQ
 
 - name: Check config VerneMQ
-  command: vernemq chkconfig
+  ansible.builtin.command: vernemq chkconfig
   changed_when: false
 
 # https://github.com/systemd/systemd/pull/896
 # https://serverfault.com/a/894866
 - name: Create runtime directory (workaround systemd issue)
-  file:
+  ansible.builtin.file:
     path: /run/vernemq
     owner: vernemq
     group: vernemq
+    mode: 0755
     state: directory
   when:
     - ansible_os_family == "RedHat"
     - ansible_distribution_major_version == "7"
 
 - name: Ensure VerneMQ is running
-  service:
+  ansible.builtin.service:
     name: vernemq
     state: started
     enabled: true
 
 - name: Run handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Get VerneMQ cluster status
-  command: vmq-admin cluster show
+  ansible.builtin.command: vmq-admin cluster show
   register: cluster_res
   changed_when: false
   check_mode: false
   when: vernemq__cluster_discovery_node is not none
 
 - name: Join VerneMQ cluster
-  command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}'
+  ansible.builtin.command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}'
   register: join_res
   when:
     - vernemq__cluster_discovery_node is not none
@@ -88,7 +91,7 @@
     - join_res.stdout.find("Couldn't join cluster") != -1 or join_res.rc > 0
 
 - name: Wait for VerneMQ listening
-  wait_for:
+  ansible.builtin.wait_for:
     port: "{{ vernemq__wait_for_port }}"
     delay: 10
   when: not ansible_check_mode

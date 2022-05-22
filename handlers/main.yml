@@ -1,5 +1,5 @@
 ---
 - name: Restart VerneMQ
-  service:
+  ansible.builtin.service:
     name: vernemq
     state: restarted
