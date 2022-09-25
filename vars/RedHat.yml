@@ -1,2 +1,2 @@
 ---
-vernemq__package: vernemq-{{ vernemq__version }}.centos{{ ansible_distribution_major_version }}.x86_64.rpm
+vernemq__package: vernemq-{{ vernemq__version }}.rocky{{ ansible_distribution_major_version }}.x86_64.rpm
