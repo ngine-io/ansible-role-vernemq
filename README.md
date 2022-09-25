@@ -31,7 +31,7 @@ ansible-galaxy install -r requirements.yml
 ## Role Variables
 
 ```yaml
-vernemq__version: 1.12.4
+vernemq__version: 1.12.6
 ```
 Version to install.
 
