@@ -10,8 +10,8 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - "7"
         - "8"
+        - "9"
     - name: Debian
       versions:
         - bookworm
@@ -20,6 +20,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - focal
+        - jammy
   galaxy_tags:
     - mqtt
     - vernemq

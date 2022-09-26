@@ -44,6 +44,8 @@ jobs:
     strategy:
       matrix:
         include:
+          - distro: debian10
+            playbook: converge.yml
           - distro: debian11
             playbook: converge.yml
           - distro: rockylinux8
@@ -52,7 +54,7 @@ jobs:
             playbook: converge.yml
           - distro: ubuntu2004
             playbook: converge.yml
-          - distro: debian10
+          - distro: ubuntu2204
             playbook: converge.yml
     steps:
       - name: Check out the codebase.
