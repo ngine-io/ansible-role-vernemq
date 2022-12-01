@@ -19,7 +19,7 @@ Via `requirements.yml`:
 # file: requirements.yml
 roles:
   - name: ngine_io.vernemq
-    version: v0.4.0
+    version: v0.6.0
 ```
 
 To install:
@@ -31,7 +31,7 @@ ansible-galaxy install -r requirements.yml
 ## Role Variables
 
 ```yaml
-vernemq__version: 1.12.6
+vernemq__version: 1.12.6.2
 ```
 Version to install.
 
@@ -60,17 +60,17 @@ vernemq__default_configs:
     max_offline_messages: 1000
     max_message_size: 0
     upgrade_outgoing_qos: "off"
-    listener.max_connections: 10000
+    listener.max_connections: 10_000
     listener.nr_of_acceptors: 10
     listener.tcp.default: "0.0.0.0:1883"
     listener.vmq.clustering: "0.0.0.0:44053"
     listener.http.default: "0.0.0.0:{{ vernemq__wait_for_port }}"
     systree_enabled: "on"
-    systree_interval: 20000
+    systree_interval: 20_000
     graphite_enabled: "off"
     graphite_host: "localhost"
     graphite_port: 2003
-    graphite_interval: 20000
+    graphite_interval: 20_000
     shared_subscription_policy: "prefer_local"
     plugins.vmq_passwd: "on"
     plugins.vmq_acl: "on"
@@ -110,7 +110,7 @@ vernemq__default_configs:
     nodename: "VerneMQ@127.0.0.1"
     distributed_cookie: "vmq"
     erlang.async_threads: 64
-    erlang.max_ports: 262144
+    erlang.max_ports: 262_144
     leveldb.maximum_memory.percent: 70
 ```
 Default configs used and may be overwritten by the `vernemq__configs` dict.
@@ -132,7 +132,7 @@ None.
     vernemq__configs:
       accept_eula: "yes"
       nodename: "VerneMQ@{{ ansible_default_ipv4.address }}"
-      max_online_messages: 100000
+      max_online_messages: 100_000
   roles:
     - role: ngine_io.vernemq
 ```
