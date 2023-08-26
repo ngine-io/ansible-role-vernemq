@@ -82,7 +82,7 @@
   when: vernemq__cluster_discovery_node is not none
 
 - name: Join VerneMQ cluster
-  ansible.builtin.command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}'
+  ansible.builtin.command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}'  # noqa no-changed-when
   register: join_res
   when:
     - vernemq__cluster_discovery_node is not none

@@ -48,6 +48,9 @@ jobs:
             playbook: converge.yml
           - distro: debian11
             playbook: converge.yml
+          # No bookworm package yet
+          # - distro: debian12
+          #   playbook: converge.yml
           - distro: rockylinux8
             playbook: converge.yml
           - distro: rockylinux9
@@ -68,7 +71,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] docker
+        run: pip3 install ansible molecule molecule-docker docker
 
       - name: Run Molecule tests.
         run: molecule test
