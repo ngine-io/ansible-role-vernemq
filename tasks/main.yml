@@ -13,13 +13,13 @@
     url: "{{ vernemq__download_url }}"
     dest: "./{{ vernemq__package }}"
     checksum: "sha256:{{ vernemq__checksums_url }}"
-    mode: 0644
+    mode: "0644"
     force: false
   until: res is succeeded
   register: res
 
 - name: Install VerneMQ for RedHat OS family
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "./{{ vernemq__package }}"
     disable_gpg_check: true
   notify: Restart VerneMQ
@@ -35,7 +35,7 @@
   ansible.builtin.copy:
     src: /etc/vernemq/vernemq.conf
     dest: /etc/vernemq/vernemq.conf.origin
-    mode: 0644
+    mode: "0644"
     remote_src: true
     force: false
 
@@ -59,7 +59,7 @@
     path: /run/vernemq
     owner: vernemq
     group: vernemq
-    mode: 0755
+    mode: "0755"
     state: directory
   when:
     - ansible_os_family == "RedHat"
@@ -82,7 +82,7 @@
   when: vernemq__cluster_discovery_node is not none
 
 - name: Join VerneMQ cluster
-  ansible.builtin.command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}'  # noqa no-changed-when
+  ansible.builtin.command: vmq-admin cluster join discovery-node='{{ vernemq__cluster_discovery_node }}' # noqa no-changed-when
   register: join_res
   when:
     - vernemq__cluster_discovery_node is not none
