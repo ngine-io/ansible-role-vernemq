@@ -19,7 +19,7 @@ Via `requirements.yml`:
 # file: requirements.yml
 roles:
   - name: ngine_io.vernemq
-    version: v0.6.0
+    version: v1.0.0
 ```
 
 To install:
@@ -31,7 +31,7 @@ ansible-galaxy install -r requirements.yml
 ## Role Variables
 
 ```yaml
-vernemq__version: 1.12.6.2
+vernemq__version: 1.13.0
 ```
 Version to install.
 
